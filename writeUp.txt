@@ -1,0 +1,233 @@
+create react app!
+Get rid of the default element.
+
+function App() {
+  return (
+    <div className="App">
+    <h1> Redux Toolkit</h1>
+    </div>
+  );
+}
+
+export default App;
+
+now we need to install redux toolkit
+before we install 
+open the redux tool kit documentation
+
+https://redux-toolkit.js.org/
+click start
+go through the documentation
+
+# NPM
+npm install @reduxjs/toolkit react-redux
+
+open package.json
+you will find redux-toolkit and react-redux.
+
+in our app we just want to create simple counter application 
+create two buttons
+
+<button>increment</button>
+<span>0</span>
+<button>decrement</button>
+
+just to be able to increment by 1 and decrement by one.
+
+create a folder inside the src name it redux.
+create a store.js inside redux folder
+create a reducer.js inside the redux folder also action.js
+
+now go to store.js folder
+
+then install redux in your terminal
+npm i redux
+
+in store.js
+import {createStore} from 'redux';
+
+const store = createStore(counterReducer);
+
+export default store
+
+this store needs a reducer to create a reducer in reducer.js
+in the reducer.js file
+create the function and set the default state, second parameter is action
+
+// reducer
+
+export default function counterReducer(state = { value: 0 }, action) {
+  switch (action.type) {
+    case "INCREMENT":
+      return { value: state.value + 1 };
+
+    case "DECREMENT":
+      return { value: state.value - 1 };
+    default:
+      return state;
+  }
+}
+
+in the action.js
+we create the action
+element
+
+
+// actions
+export const Increase = () => ({
+  type: "INCREMENT",
+});
+
+export const Decrease = () => ({
+  type: "DECREMENT",
+});
+
+
+then we go into index.js
+
+import store from './redux/store';
+import {Provider} from 'react-redux';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
+
+in the App.js 
+to access the store we will need to use useSelector hook.
+import { useSelector, useDispatch } from "react-redux";
+ import { increment, decrement } from "./redux/action";
+
+function App() {
+   const count = useSelector((state) => console.log(state));
+   const dispatch = useDispatch();
+
+  return (
+    
+      <div>
+        <h1>React State, Redux and redux-toolkit</h1>
+
+         <button onClick={() => dispatch(increment())}>increment</button>
+        <span>0</span>
+        <button onClick={() => dispatch(decrement())}>decrement</button>
+      </div>
+    
+  );
+}
+
+export default App;
+
+click the button and check the console
+
+function App() {
+   const count = useSelector((state) => state.value);
+   const dispatch = useDispatch();
+
+  return (
+    
+      <div>
+        <h1>React State, Redux and redux-toolkit</h1>
+
+         <button onClick={() => dispatch(increment())}>increment</button>
+        <span>{count}</span>
+        <button onClick={() => dispatch(decrement())}>decrement</button>
+      </div>
+    
+  );
+}
+
+export default App;
+
+
+call the count
+
+<span>{count}</span>
+
+
+>>>>>>>>>>Toolkit
+
+npm install @reduxjs/toolkit
+
+in the src create a toolkit folder.
+in the folder create a reducer.js file and store.js file.
+
+in the toolkit reducer.js
+
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  value: 0,
+};
+
+export const counterSlice = createSlice({
+  name: "counter",
+  initialState,
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+  },
+});
+
+export const { increment, decrement } = counterSlice.actions;
+export default counterSlice.reducer;
+
+in the toolkit store.js
+
+import { configureStore } from "@reduxjs/toolkit";
+import counterReducer from '../redux/reducer'
+
+export const store = configureStore({
+  reducer: {
+    counter:  counterReducer
+  },
+});
+
+in the the index.js
+replace
+import store from './redux/store';
+with
+import { store} from './toolkit/store
+
+in the app.js
+replace
+import { increment, decrement } from "./toolkit/reducer";
+with
+
+import { increase, decrease } from './toolkit/reducer'
+
+
+function App() {
+  const count = useSelector((state) => state.value);
+  const dispatch = useDispatch();
+
+  return (
+    <div className="App">
+      <h1> Redux Toolkit</h1>
+
+      <button onClick={() => dispatch(increment)}>increment</button>
+
+      <span>{count}</span>
+
+      <button onClick={() => dispatch(decrement)}>decrement</button>
+    </div>
+  );
+
+  then 
+
+  function App() {
+  const count = useSelector((state) => console.log(state));
+
+  check the object in the console you will see counter as the name of the reducer
+
+  change to
+   function App() {
+  const count = useSelector((state) => state.counter.value);
+
+
+
