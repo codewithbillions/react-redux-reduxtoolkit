@@ -180,11 +180,11 @@ export default counterSlice.reducer;
 in the toolkit store.js
 
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from '../redux/reducer'
+import reducer from "../toolkit/reducer";
 
 export const store = configureStore({
   reducer: {
-    counter:  counterReducer
+    counter:  reducer
   },
 });
 
@@ -196,14 +196,14 @@ import { store} from './toolkit/store
 
 in the app.js
 replace
-import { increment, decrement } from "./toolkit/reducer";
+import { increment, decrement } from "./redux/reducer";
 with
 
 import { increase, decrease } from './toolkit/reducer'
 
 
 function App() {
-  const count = useSelector((state) => state.value);
+  const count = useSelector((state) => state.counter.value);
   const dispatch = useDispatch();
 
   return (
@@ -228,6 +228,28 @@ function App() {
   change to
    function App() {
   const count = useSelector((state) => state.counter.value);
+
+
+>>>class based component
+import React from "react";
+class Welcome extends React.Component {
+  state = {
+    name: "Sara",
+    age: 60
+  };
+  handleClick = () => this.setState({ name: "Christiana", age: 32 });
+  render() {
+    return (
+      <>
+        <h1>hello {this.state.name} <br/>{this.state.age}</h1>;
+        
+
+        <button onClick={this.handleClick}> ClickMe</button>
+      </>
+    );
+  }
+}
+export default Welcome;
 
 
 
